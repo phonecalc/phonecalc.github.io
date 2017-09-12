@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Phone Calc</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        background-repeat: no-repeat;
+        -ms-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+      }
+      body {
+        background-color: #000;
+        color: #FFF;
+        font-size: 32px;
+      }
+      main {
+        margin: 2%;
+      }
+      input[type=text] {
+        background-color: rgba(255,255,255,0.1);
+        color: inherit;
+        border: 1px solid rgba(255,255,255,0.2);
+        display: block;
+        width: 100%;
+        font-size: inherit;
+        margin: 0 auto;
+        padding: 0.5em;
+      }
+      label {
+        display: block;
+        font-size: 0.8em;
+      }
+      #result {
+        text-align: center;
+        margin: 10px 0;
+      }
+      #result span {
+        margin: 0 5px;
+      }
+    </style>
+    <script>
+      function calc(x) {
+        var r = new Array(),
+          l = x.length;
+        for (var i = 1; i < l; i++) {
+          var z = new String(parseFloat(x[i]) + parseFloat(x[i - 1])).split('');
+          if (z.length == 1) {
+            r.push(parseFloat(z[0]));
+          } else {
+            r.push(parseFloat(z[0]) + parseFloat(z[1]));
+          }
+        }
+        return r;
+      }
+      function doCalc() {
+        var ds = document.getElementById('phone').value.split('');
+        var rs = new Array();
+        rs.push(ds);
+        var result = document.getElementById('result');
+        result.innerHTML = '';
+        var l = rs[0].length;
+        for (var i = 1; i < l; i++) {
+          rs.push(calc(rs[i - 1]));
+        }
+        l = rs.length;
+        for (var i = 0; i < l; i++) {
+          var p = document.createElement('p');
+          result.appendChild(p);
+          p.innerHTML = '<span>' + rs[i].join('</span><span>') + '</span>';
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <main>
+      <label for='phone'>กรอกหมายเลขโทรศัพท์</label>
+      <input type="text" id="phone" placeholder="660123456789" value="66" maxlength=11 onkeyup="doCalc()" autofocus>
+      <div id="result"></div>
+    </main>
+  </body>
+</html>
